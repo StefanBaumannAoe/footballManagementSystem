@@ -10,18 +10,17 @@ class Player(models.Model):
     number = models.IntegerField()
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
 
-class League(models.Model):
-    name = models.CharField(max_length=100)
-    teams = models.ManyToManyField(Team)
-    country = models.CharField(max_length=100)
-    start_date = models.DateField()
-    end_date = models.DateField()
-
 class Team(models.Model):
     name = models.CharField(max_length=100)
     coach = models.ForeignKey(Trainer, on_delete=models.SET_NULL, null=True)
     players = models.ManyToManyField(Player)
-    league = models.ForeignKey(League, on_delete=models.SET_NULL, null=True)
+
+class League(models.Model):
+    name = models.CharField(max_length=100)
+    teams = models.ForeignKey(Team)
+    country = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
 
 class Match(models.Model):
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_matches')
